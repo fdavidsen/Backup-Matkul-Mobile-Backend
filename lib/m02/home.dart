@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -17,7 +16,7 @@ class _Home2State extends State<Home2> {
   String? _image;
   String? _tanggal;
   double _score = 0;
-  final ImagePicker _picker = ImagePicker();
+  // final ImagePicker _picker = ImagePicker();
 
   final String _keyScore = 'score';
   final String _keyImage = 'image';
@@ -26,14 +25,23 @@ class _Home2State extends State<Home2> {
 
   TextEditingController datePickerController = TextEditingController();
 
+  bool isLoadingData = true;
+
   void loadData() async {
     prefs = await SharedPreferences.getInstance();
+
+    await Future.delayed(const Duration(seconds: 3), () {
+      print('Wait for 3 seconds');
+    });
+
     setState(() {
       _score = (prefs.getDouble(_keyScore) ?? 0);
       _image = prefs.getString(_keyImage);
       _tanggal = prefs.getString(_keyTanggal);
-      datePickerController.text = _tanggal!;
+      datePickerController.text = _tanggal != null ? _tanggal! : 'Tanggal';
+      isLoadingData = false;
     });
+    print('Data loaded');
   }
 
   Future<void> _setScore(double value) async {
@@ -45,15 +53,15 @@ class _Home2State extends State<Home2> {
     });
   }
 
-  Future<void> _setImage(String? value) async {
-    prefs = await SharedPreferences.getInstance();
-    if (value != null) {
-      setState(() {
-        prefs.setString(_keyImage, value);
-        _image = prefs.getString(_keyImage);
-      });
-    }
-  }
+  // Future<void> _setImage(String? value) async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   if (value != null) {
+  //     setState(() {
+  //       prefs.setString(_keyImage, value);
+  //       _image = prefs.getString(_keyImage);
+  //     });
+  //   }
+  // }
 
   Future<void> _setTanggal(String? value) async {
     prefs = await SharedPreferences.getInstance();
@@ -61,7 +69,6 @@ class _Home2State extends State<Home2> {
       setState(() {
         prefs.setString(_keyTanggal, value);
         _tanggal = prefs.getString(_keyTanggal);
-        datePickerController.text = _tanggal!;
       });
     }
   }
@@ -76,11 +83,17 @@ class _Home2State extends State<Home2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('My Bio')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         child: Center(
           child: Column(
             children: [
+              isLoadingData
+                  ? const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: CircularProgressIndicator(),
+                    )
+                  : Container(),
               Container(
                 width: 200,
                 height: 200,
@@ -94,8 +107,7 @@ class _Home2State extends State<Home2> {
                     : Container(
                         width: 200,
                         height: 200,
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 198, 198, 198)),
+                        decoration: const BoxDecoration(color: Color.fromARGB(255, 198, 198, 198)),
                         child: Icon(
                           Icons.camera_alt,
                           color: Colors.grey[800],
@@ -131,12 +143,13 @@ class _Home2State extends State<Home2> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     TextField(
+                      enabled: false,
                       controller: datePickerController,
-                      decoration: InputDecoration(hintText: 'Tanggal'),
+                      decoration: const InputDecoration(hintText: 'Tanggal'),
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -145,16 +158,20 @@ class _Home2State extends State<Home2> {
                               MaterialPageRoute(
                                   builder: (context) => Scaffold(
                                         appBar: AppBar(
-                                          title: Text('Pilih Tanggal'),
+                                          title: const Text('Pilih Tanggal'),
                                         ),
                                         body: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: SfDateRangePicker(
                                             showActionButtons: true,
-                                            initialDisplayDate:
-                                                DateTime.parse(_tanggal!),
+                                            initialSelectedDate:
+                                                _tanggal != null ? DateTime.parse(_tanggal!) : null,
+                                            onCancel: () {
+                                              Navigator.pop(context);
+                                            },
                                             onSubmit: (value) {
-                                              print(value);
+                                              datePickerController.text = value.toString();
+                                              _tanggal = value.toString();
                                               _setTanggal(value.toString());
                                               Navigator.pop(context);
                                             },
@@ -162,9 +179,24 @@ class _Home2State extends State<Home2> {
                                         ),
                                       )));
                         },
-                        child: Text('Pilih Tanggal'))
+                        child: const Text('Pilih Tanggal'))
                   ],
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      prefs.remove(_keyScore);
+                      prefs.remove(_keyTanggal);
+
+                      setState(() {
+                        _score = 0;
+                        _tanggal = null;
+                        datePickerController.text = 'Tanggal';
+                      });
+                    },
+                    child: const Text('Clear Data')),
               )
             ],
           ),

@@ -39,6 +39,7 @@ dependencies:
   flutter_spinbox: ^0.13.1
   shared_preferences: ^2.2.1
   provider: ^6.0.5
+  syncfusion_flutter_datepicker: ^23.1.38
 
 dev_dependencies:
   flutter_test:
