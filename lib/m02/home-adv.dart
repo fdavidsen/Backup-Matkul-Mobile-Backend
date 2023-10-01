@@ -2,44 +2,65 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:latihan_mobile_backend/m02/myprovider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class Home2 extends StatefulWidget {
-  const Home2({super.key});
+class Home2Adv extends StatefulWidget {
+  const Home2Adv({super.key});
 
   @override
-  State<Home2> createState() => _Home2State();
+  State<Home2Adv> createState() => _Home2AdvState();
 }
 
-class _Home2State extends State<Home2> {
-  // final ImagePicker _picker = ImagePicker();
+class _Home2AdvState extends State<Home2Adv> {
+  String? _image;
+  String? _tanggal;
+  double _score = 0;
+
+  double _duration = 1;
+  bool showImage = false;
 
   final String _keyScore = 'score';
   final String _keyImage = 'image';
   final String _keyTanggal = 'date';
   late SharedPreferences prefs;
 
+  TextEditingController durationController = TextEditingController();
   TextEditingController datePickerController = TextEditingController();
+
+  bool isLoadingData = true;
 
   void loadData() async {
     prefs = await SharedPreferences.getInstance();
 
-    await Future.delayed(const Duration(seconds: 3), () {
-      print('Wait for 3 seconds');
+    await Future.delayed(const Duration(seconds: 1), () {
+      print('Wait for 1 seconds');
     });
 
     setState(() {
-      // prov.score = (prefs.getDouble(_keyScore) ?? 0);
-      // prov.image = prefs.getString(_keyImage);
-      // prov.tanggal = prefs.getString(_keyTanggal);
-      // datePickerController.text = prov.tanggal != null ? prov.tanggal! : 'Tanggal';
-      // prov.isLoadingData = false;
+      _score = (prefs.getDouble(_keyScore) ?? 0);
+      _image = prefs.getString(_keyImage);
+      _tanggal = prefs.getString(_keyTanggal);
+      datePickerController.text = _tanggal != null ? _tanggal! : 'Tanggal';
+      isLoadingData = false;
+    });
+    print('Data loaded');
+  }
+
+  void _setDuration(double value) async {
+    print(value);
+
+    setState(() {
+      showImage = false;
     });
 
-    print('Data loaded');
+    await Future.delayed(Duration(seconds: value.toInt()), () {
+      print('Wait for ${value.toInt()} seconds');
+    });
+
+    setState(() {
+      showImage = true;
+    });
   }
 
   Future<void> _setScore(double value) async {
@@ -47,26 +68,16 @@ class _Home2State extends State<Home2> {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setDouble(_keyScore, value);
-      // prov.score = (prefs.getDouble(_keyScore) ?? 0);
+      _score = (prefs.getDouble(_keyScore) ?? 0);
     });
   }
-
-  // Future<void> _setImage(String? value) async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   if (value != null) {
-  //     setState(() {
-  //       prefs.setString(_keyImage, value);
-  //       _image = prefs.getString(_keyImage);
-  //     });
-  //   }
-  // }
 
   Future<void> _setTanggal(String? value) async {
     prefs = await SharedPreferences.getInstance();
     if (value != null) {
       setState(() {
         prefs.setString(_keyTanggal, value);
-        // prov.tanggal = prefs.getString(_keyTanggal);
+        _tanggal = prefs.getString(_keyTanggal);
       });
     }
   }
@@ -79,8 +90,6 @@ class _Home2State extends State<Home2> {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<MyProvider2>(context);
-
     return Scaffold(
       appBar: AppBar(title: const Text('My Bio')),
       body: SingleChildScrollView(
@@ -88,54 +97,50 @@ class _Home2State extends State<Home2> {
         child: Center(
           child: Column(
             children: [
-              prov.isLoadingData
+              isLoadingData
                   ? const Padding(
                       padding: EdgeInsets.only(bottom: 30),
                       child: CircularProgressIndicator(),
                     )
                   : Container(),
-              // Container(
-              //   width: 200,
-              //   height: 200,
-              //   decoration: BoxDecoration(color: Colors.red[200]),
-              //   child: _image != null
-              //       ? Image.file(
-              //           File(_image!),
-              //           width: 200,
-              //           height: 200,
-              //         )
-              //       : Container(
-              //           width: 200,
-              //           height: 200,
-              //           decoration: const BoxDecoration(color: Color.fromARGB(255, 198, 198, 198)),
-              //           child: Icon(
-              //             Icons.camera_alt,
-              //             color: Colors.grey[800],
-              //           ),
-              //         ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8),
-              //   child: ElevatedButton(
-              //     onPressed: () async {
-              //       XFile? image =
-              //           await _picker.pickImage(source: ImageSource.gallery);
-              //       setState(() {
-              //         if (image != null) {
-              //           _image = image.path;
-              //           _setImage(image.path);
-              //         }
-              //       });
-              //     },
-              //     child: const Text('Take Image'),
-              //   ),
-              // ),
+              Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(color: Colors.red[200]),
+                child: showImage
+                    ? Image.asset(
+                        'assets/download.jpeg',
+                        width: 200,
+                        height: 200,
+                      )
+                    : Container(
+                        width: 200,
+                        height: 200,
+                        decoration: const BoxDecoration(color: Color.fromARGB(255, 198, 198, 198)),
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: SpinBox(
+                  max: 10,
+                  min: 1,
+                  value: _duration,
+                  decimals: 1,
+                  step: 1,
+                  decoration: const InputDecoration(labelText: 'Duration'),
+                  onChanged: _setDuration,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: SpinBox(
                   max: 10,
                   min: 0,
-                  value: prov.score,
+                  value: _score,
                   decimals: 1,
                   step: 0.1,
                   decoration: const InputDecoration(labelText: 'Decimals'),
@@ -164,15 +169,14 @@ class _Home2State extends State<Home2> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: SfDateRangePicker(
                                             showActionButtons: true,
-                                            initialSelectedDate: prov.tanggal != null
-                                                ? DateTime.parse(prov.tanggal!)
-                                                : null,
+                                            initialSelectedDate:
+                                                _tanggal != null ? DateTime.parse(_tanggal!) : null,
                                             onCancel: () {
                                               Navigator.pop(context);
                                             },
                                             onSubmit: (value) {
                                               datePickerController.text = value.toString();
-                                              prov.tanggal = value.toString();
+                                              _tanggal = value.toString();
                                               _setTanggal(value.toString());
                                               Navigator.pop(context);
                                             },
@@ -192,8 +196,8 @@ class _Home2State extends State<Home2> {
                       prefs.remove(_keyTanggal);
 
                       setState(() {
-                        prov.score = 0;
-                        prov.tanggal = null;
+                        _score = 0;
+                        _tanggal = null;
                         datePickerController.text = 'Tanggal';
                       });
                     },
