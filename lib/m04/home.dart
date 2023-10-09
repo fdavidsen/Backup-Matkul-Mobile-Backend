@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:latihan_mobile_backend/m04/http_helper.dart';
+import 'package:flutter_application_1/m04/http_helper.dart';
 
 class Home4 extends StatefulWidget {
   const Home4({super.key});
@@ -30,9 +30,16 @@ class _Home4State extends State<Home4> {
 
   @override
   Widget build(BuildContext context) {
-    helper.getMovie(selectedOption).then((value) {
+    // helper.getMovie(selectedOption).then((value) {
+    //   setState(() {
+    //     result = value;
+    //   });
+    // });
+
+    helper.getWeatherMedan().then((value) {
+      print(value);
       setState(() {
-        result = value;
+        result = value.toString();
       });
     });
 
@@ -40,27 +47,36 @@ class _Home4State extends State<Home4> {
       appBar: AppBar(
         title: const Text('My Movie'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Column(
-              children: options.entries
-                  .map((entry) => RadioListTile(
-                        title: Text(entry.key),
-                        value: entry.value,
-                        groupValue: selectedOption,
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedOption = value!;
-                          });
-                        },
-                      ))
-                  .toList(),
-            ),
-            Text(result)
-          ],
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       Column(
+      //         children: options.entries
+      //             .map((entry) => RadioListTile(
+      //                   title: Text(entry.key),
+      //                   value: entry.value,
+      //                   groupValue: selectedOption,
+      //                   onChanged: (String? value) {
+      //                     setState(() {
+      //                       selectedOption = value!;
+      //                     });
+      //                   },
+      //                 ))
+      //             .toList(),
+      //       ),
+      //       Text(result)
+      //     ],
+      //   ),
+      // ),
+      body: Container(
+          color: result != 'Loading...'
+              ? double.parse(result) < 29
+                  ? Colors.green
+                  : Colors.red
+              : null,
+          child: Center(
+            child: Text(result),
+          )),
     );
   }
 }
