@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/m05/detail_screen.dart';
 import 'package:flutter_application_1/m05/http_helper.dart';
 
 class Home5 extends StatefulWidget {
@@ -24,7 +25,7 @@ class _Home5State extends State<Home5> {
   };
   String selectedOption = 'now_playing';
 
-  Future<void> initialize() async {
+  Future<void> loadData() async {
     movies = await helper?.getMovie(selectedOption);
     setState(() {
       movies = movies;
@@ -34,7 +35,7 @@ class _Home5State extends State<Home5> {
   @override
   void initState() {
     helper = HttpHelper();
-    initialize();
+    loadData();
     super.initState();
   }
 
@@ -58,15 +59,44 @@ class _Home5State extends State<Home5> {
                         onChanged: (String? value) {
                           setState(() {
                             selectedOption = value!;
+                            loadData();
                           });
                         },
                       ))
                   .toList(),
             ),
-            Text(movies.toString()),
-            ListView.builder(itemBuilder: (context, position) {
-              return Card();
-            })
+            // Text(movies.toString()),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: movies?.length == null ? 0 : movies?.length,
+                itemBuilder: (context, int position) {
+                  if (movies![position].posterPath != null) {
+                    image =
+                        NetworkImage(iconBase + movies![position].posterPath);
+                  } else {
+                    image = NetworkImage(defaultImage);
+                  }
+
+                  return Card(
+                    color: Colors.white,
+                    child: ListTile(
+                      onTap: () {
+                        MaterialPageRoute route = MaterialPageRoute(
+                            builder: (_) =>
+                                DetailScreen(movie: movies![position]));
+                        Navigator.push(context, route);
+                      },
+                      leading: CircleAvatar(
+                        backgroundImage: image,
+                      ),
+                      title: Text(movies![position].title),
+                      subtitle: Text('Released: ' +
+                          movies![position].releaseDate +
+                          ' - Vote: ' +
+                          movies![position].voteAverage.toString()),
+                    ),
+                  );
+                }),
           ],
         ),
       ),
