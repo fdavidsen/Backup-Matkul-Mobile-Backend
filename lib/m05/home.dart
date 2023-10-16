@@ -50,20 +50,21 @@ class _Home5State extends State<Home5> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Column(
-              children: options.entries
-                  .map((entry) => RadioListTile(
-                        title: Text(entry.key),
-                        value: entry.value,
-                        groupValue: selectedOption,
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedOption = value!;
-                            loadData();
-                          });
-                        },
-                      ))
-                  .toList(),
+            DropdownButton(
+              value: selectedOption,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              items: options.entries.map((entry) {
+                return DropdownMenuItem(
+                  value: entry.value,
+                  child: Text(entry.key),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedOption = newValue!;
+                  loadData();
+                });
+              },
             ),
             // Text(movies.toString()),
             ListView.builder(
