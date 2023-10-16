@@ -25,6 +25,8 @@ class _Home5State extends State<Home5> {
   };
   String selectedOption = 'now_playing';
 
+  final _controller = ScrollController();
+
   Future<void> loadData() async {
     movies = await helper?.getMovie(selectedOption);
     setState(() {
@@ -36,6 +38,18 @@ class _Home5State extends State<Home5> {
   void initState() {
     helper = HttpHelper();
     loadData();
+
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        bool isTop = _controller.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else {
+          print('At the bottom');
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -48,6 +62,8 @@ class _Home5State extends State<Home5> {
         title: const Text('My Movie'),
       ),
       body: SingleChildScrollView(
+        controller: _controller,
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             DropdownButton(
