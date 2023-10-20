@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/m05/movie.dart';
+import 'package:latihan_mobile_backend/m05/movie.dart';
 
 class DetailScreen extends StatelessWidget {
   final Movie movie;
@@ -14,8 +14,7 @@ class DetailScreen extends StatelessWidget {
     if (movie.posterPath.isNotEmpty) {
       path = imgPath + movie.posterPath;
     } else {
-      path =
-          'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
+      path = 'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
     }
 
     return Scaffold(
@@ -26,13 +25,13 @@ class DetailScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              // Container(
+              //   padding: const EdgeInsets.all(16),
+              //   height: MediaQuery.of(context).size.height,
+              //   child: Image.network(path),
+              // ),
               Container(
-                padding: EdgeInsets.all(16),
-                height: MediaQuery.of(context).size.height,
-                child: Image.network(path),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Text(movie.overview),
               )
             ],

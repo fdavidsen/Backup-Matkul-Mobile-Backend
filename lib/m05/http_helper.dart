@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_application_1/m05/movie.dart';
+import 'package:latihan_mobile_backend/m05/movie.dart';
 import 'package:http/http.dart' as http;
 
 class HttpHelper {
