@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:latihan_mobile_backend/m05/movie.dart';
+import 'package:flutter_application_1/m05/movie.dart';
 import 'package:http/http.dart' as http;
 
 class HttpHelper {
@@ -17,8 +17,14 @@ class HttpHelper {
 
     if (result.statusCode == HttpStatus.ok) {
       var responseBody = json.decode(result.body);
-      var moviesMap = responseBody['results'];
-      List movies = moviesMap.map((e) => Movie.fromJson(e)).toList();
+      List movies = [];
+      if (filter != 'latest') {
+        var moviesMap = responseBody['results'];
+        movies = moviesMap.map((e) => Movie.fromJson(e)).toList();
+      } else {
+        movies.add(Movie.fromJson(responseBody));
+        print(movies);
+      }
       return movies;
     }
     return null;
