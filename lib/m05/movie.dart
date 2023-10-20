@@ -21,7 +21,7 @@ class Movie {
     final voteAverage = parsedJson['vote_average'] * 1.0;
     final releaseDate = parsedJson['release_date'];
     final overview = parsedJson['overview'];
-    final posterPath = parsedJson['poster_path'];
+    final posterPath = parsedJson['poster_path'] ?? '';
 
     return Movie(
       id,
