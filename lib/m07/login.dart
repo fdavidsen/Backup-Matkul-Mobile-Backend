@@ -92,7 +92,7 @@ class _Home7State extends State<Home7> {
     });
   }
 
-  Future<String>? _onLoginGoogle() {
-    return null;
+  Future<String?> _onLoginGoogle() {
+    return auth.googleLogin();
   }
 }
