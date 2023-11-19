@@ -39,19 +39,13 @@ class _Home7State extends State<Home7> {
           }
         }
       },
-      loginProviders: [
-        LoginProvider(
-            callback: _onLoginGoogle,
-            icon: FontAwesomeIcons.google,
-            label: 'Google')
-      ],
+      loginProviders: [LoginProvider(callback: _onLoginGoogle, icon: FontAwesomeIcons.google, label: 'Google')],
       onSubmitAnimationCompleted: () {
         auth.getUser().then((value) {
           print(value);
           MaterialPageRoute route;
           if (value != null) {
-            route =
-                MaterialPageRoute(builder: (context) => MyHome(wid: value.uid));
+            route = MaterialPageRoute(builder: (context) => MyHome(wid: value.uid));
           } else {
             route = MaterialPageRoute(builder: (context) => Home7());
           }
@@ -66,12 +60,9 @@ class _Home7State extends State<Home7> {
       if (value != null) {
         MaterialPageRoute(builder: (context) => MyHome(wid: value));
       } else {
-        final snackBar = SnackBar(
-            content: Text('Login Failed, User Not Found'),
-            action: SnackBarAction(label: 'OK', onPressed: () {}));
+        final snackBar = SnackBar(content: Text('Login Failed, User Not Found'), action: SnackBarAction(label: 'OK', onPressed: () {}));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => Home7()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home7()));
       }
     });
   }

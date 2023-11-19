@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:latihan_mobile_backend/m02/myprovider.dart';
+import 'package:flutter_application_1/m02/myprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -164,9 +164,7 @@ class _Home2State extends State<Home2> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: SfDateRangePicker(
                                             showActionButtons: true,
-                                            initialSelectedDate: prov.tanggal != null
-                                                ? DateTime.parse(prov.tanggal!)
-                                                : null,
+                                            initialSelectedDate: prov.tanggal != null ? DateTime.parse(prov.tanggal!) : null,
                                             onCancel: () {
                                               Navigator.pop(context);
                                             },

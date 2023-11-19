@@ -29,8 +29,7 @@ class _MyHomeState extends State<MyHome> {
           IconButton(
               onPressed: () {
                 auth.logout();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Home7()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home7()));
               },
               icon: Icon(Icons.logout_sharp))
         ],

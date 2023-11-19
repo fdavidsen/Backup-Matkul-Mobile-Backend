@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:latihan_mobile_backend/m03/dbhelper.dart';
-import 'package:latihan_mobile_backend/m03/shopping_list.dart';
+import 'package:flutter_application_1/m03/dbhelper.dart';
+import 'package:flutter_application_1/m03/shopping_list.dart';
 
 class ShoppingListDialog {
   DBHelper _dbHelper;

@@ -14,8 +14,7 @@ class DetailScreen extends StatelessWidget {
     if (movie.posterPath.isNotEmpty) {
       path = imgPath + movie.posterPath;
     } else {
-      path =
-          'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
+      path = 'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
     }
 
     return Scaffold(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:latihan_mobile_backend/m03/dbhelper.dart';
-import 'package:latihan_mobile_backend/m03/item_screen.dart';
-import 'package:latihan_mobile_backend/m03/my_provider.dart';
-import 'package:latihan_mobile_backend/m03/shopping_list.dart';
-import 'package:latihan_mobile_backend/m03/shopping_list_dialog.dart';
+import 'package:flutter_application_1/m03/dbhelper.dart';
+import 'package:flutter_application_1/m03/item_screen.dart';
+import 'package:flutter_application_1/m03/my_provider.dart';
+import 'package:flutter_application_1/m03/shopping_list.dart';
+import 'package:flutter_application_1/m03/shopping_list_dialog.dart';
 import 'package:provider/provider.dart';
 
 class Home3 extends StatefulWidget {
@@ -58,8 +58,7 @@ class _Home3State extends State<Home3> {
             await showDialog(
                 context: context,
                 builder: (context) {
-                  return ShoppingListDialog(_dbHelper)
-                      .buildDialog(context, ShoppingList(++id, '', 0), true);
+                  return ShoppingListDialog(_dbHelper).buildDialog(context, ShoppingList(++id, '', 0), true);
                 });
 
             _dbHelper.getShoppingList().then((value) => prov.setShoppingList = value);
@@ -86,11 +85,7 @@ class _Home3State extends State<Home3> {
                     child: Text(prov.getShoppingList[index].sum.toString()),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ItemScreen(shoppingList: prov.getShoppingList[index])));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ItemScreen(shoppingList: prov.getShoppingList[index])));
                   },
                   trailing: IconButton(
                       icon: const Icon(Icons.edit),
@@ -98,8 +93,7 @@ class _Home3State extends State<Home3> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return ShoppingListDialog(_dbHelper)
-                                  .buildDialog(context, prov.getShoppingList[index], false);
+                              return ShoppingListDialog(_dbHelper).buildDialog(context, prov.getShoppingList[index], false);
                             });
                       }),
                 ));

@@ -6,16 +6,14 @@ class AuthFirebase {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<String?> signUp(String email, String password) async {
-    UserCredential authResult = await _firebaseAuth
-        .createUserWithEmailAndPassword(email: email, password: password);
+    UserCredential authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     User? user = authResult.user;
     return user?.uid;
   }
 
   Future<String?> login(String email, String password) async {
     try {
-      UserCredential authResult = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential authResult = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       User? user = authResult.user;
       return user?.uid;
     } catch (e) {
@@ -37,8 +35,7 @@ class AuthFirebase {
     //https://medium.flutterdevs.com/google-sign-in-with-flutter-8960580dec96
     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
 
-    GoogleSignInAuthentication? googleSignInAuthentication =
-        await googleSignInAccount?.authentication;
+    GoogleSignInAuthentication? googleSignInAuthentication = await googleSignInAccount?.authentication;
 
     // AuthCredential credential = GoogleAuthProvider.credential(
     //   accessToken: googleSignInAuthentication?.accessToken,

@@ -14,8 +14,7 @@ class _Home5State extends State<Home5> {
   List? movies;
   List? filteredItems;
   final String iconBase = 'https://image.tmdb.org/t/p/w92/';
-  final String defaultImage =
-      'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
+  final String defaultImage = 'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
 
   Map<String, String> options = {
     'now_playing': 'Now Playing',
@@ -58,9 +57,7 @@ class _Home5State extends State<Home5> {
   final TextEditingController _searchController = TextEditingController();
 
   void filterSearchResults(String query) {
-    List searchResults = movies!
-        .where((item) => item.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
+    List searchResults = movies!.where((item) => item.title.toLowerCase().contains(query.toLowerCase())).toList();
     setState(() {
       filteredItems = searchResults;
     });
@@ -109,13 +106,10 @@ class _Home5State extends State<Home5> {
             // Text(movies.toString()),
             ListView.builder(
                 shrinkWrap: true,
-                itemCount:
-                    filteredItems?.length == null ? 0 : filteredItems?.length,
+                itemCount: filteredItems?.length == null ? 0 : filteredItems?.length,
                 itemBuilder: (context, int position) {
-                  if (filteredItems![position].posterPath != null &&
-                      filteredItems![position].posterPath != '') {
-                    image = NetworkImage(
-                        iconBase + filteredItems![position].posterPath);
+                  if (filteredItems![position].posterPath != null && filteredItems![position].posterPath != '') {
+                    image = NetworkImage(iconBase + filteredItems![position].posterPath);
                   } else {
                     image = NetworkImage(defaultImage);
                   }
@@ -126,19 +120,15 @@ class _Home5State extends State<Home5> {
                     color: Colors.white,
                     child: ListTile(
                       onTap: () {
-                        MaterialPageRoute route = MaterialPageRoute(
-                            builder: (_) =>
-                                DetailScreen(movie: filteredItems![position]));
+                        MaterialPageRoute route = MaterialPageRoute(builder: (_) => DetailScreen(movie: filteredItems![position]));
                         Navigator.push(context, route);
                       },
                       leading: CircleAvatar(
                         backgroundImage: image,
                       ),
                       title: Text(filteredItems![position].title),
-                      subtitle: Text('Released: ' +
-                          filteredItems![position].releaseDate +
-                          ' - Vote: ' +
-                          filteredItems![position].voteAverage.toString()),
+                      subtitle:
+                          Text('Released: ' + filteredItems![position].releaseDate + ' - Vote: ' + filteredItems![position].voteAverage.toString()),
                     ),
                   );
                 }),

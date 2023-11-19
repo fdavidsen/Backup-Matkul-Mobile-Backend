@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/my-analytics-helper.dart';
+import 'package:flutter_application_1/m06/my-analytics-helper.dart';
 
 class Home6 extends StatefulWidget {
   const Home6({super.key});

@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:latihan_mobile_backend/m03/shopping_list.dart';
+import 'package:flutter_application_1/m03/shopping_list.dart';
 
 class DBHelper {
   Database? _database;
@@ -17,10 +17,8 @@ class DBHelper {
     _database ??= await openDatabase(
       join(await getDatabasesPath(), _db_name),
       onCreate: (db, version) async {
-        await db
-            .execute('CREATE TABLE $_table_name (id INTEGER PRIMARY KEY, name TEXT, sum INTEGER)');
-        await db.execute(
-            'CREATE TABLE $_table_history (id INTEGER PRIMARY KEY, datetime DATETIME, name TEXT)');
+        await db.execute('CREATE TABLE $_table_name (id INTEGER PRIMARY KEY, name TEXT, sum INTEGER)');
+        await db.execute('CREATE TABLE $_table_history (id INTEGER PRIMARY KEY, datetime DATETIME, name TEXT)');
       },
       version: _db_version,
     );
