@@ -81,6 +81,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore
+      sha256: fabfa9b20e752ea55841b0177620a817baf3c7cd12854f339f7daadb6969ee5a
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.13.1"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: "32cfa6cebf3408e541f074083fa429505af855896425eeab1c4f13edc3f68450"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: d8e36c1a60c69eb6d5bc239e497a1f284627ef8eb42258776bbfc98ce615e869
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.8.5"
   collection:
     dependency: transitive
     description:
@@ -129,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  fab_circular_menu_plus:
+    dependency: "direct main"
+    description:
+      name: fab_circular_menu_plus
+      sha256: "2b4c25c2fa88d986483ed230dc30fa82e19a13c5258a0cf65f6255ff48fa1d80"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:
