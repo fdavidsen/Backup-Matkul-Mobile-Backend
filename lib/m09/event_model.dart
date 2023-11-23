@@ -21,6 +21,7 @@ class EventModel {
     return {
       'judul': judul,
       'keterangan': keterangan,
+      'pembicara': pembicara,
       'is_like': isLike,
       'tanggal': tanggal,
     };
