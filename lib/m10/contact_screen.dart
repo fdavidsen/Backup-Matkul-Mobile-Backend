@@ -32,14 +32,18 @@ class _ContactScreenState extends State<ContactScreen> {
         title: Text('Contact'),
       ),
       body: _contacts != null && _contacts.length != 0
-          ? ListView.builder(itemBuilder: (context, index) {
-              Contact? contact = _contacts?.elementAt(index);
+          ? ListView.builder(
+              itemCount: _contacts?.length ?? 0,
+              itemBuilder: (context, index) {
+                print(index);
+                Contact? contact = _contacts?.elementAt(index);
 
-              return ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 2, horizontal: 18),
-              );
-            })
+                return ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 2, horizontal: 18),
+                  title: Text(contact.displayName ?? ''),
+                );
+              })
           : Center(
               child: Text('Kontak Kosong'),
             ),
