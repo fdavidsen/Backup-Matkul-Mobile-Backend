@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/m10/camera_screen.dart';
 import 'package:flutter_application_1/m10/contact_screen.dart';
+import 'package:flutter_application_1/m10/location_screen.dart';
+import 'package:location/location.dart' as location;
 import 'package:permission_handler/permission_handler.dart';
 
 class Home10 extends StatefulWidget {
@@ -14,12 +16,14 @@ class _Home10State extends State<Home10> {
   void contact() async {
     print('contact');
     if (await Permission.contacts.status.isGranted) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactScreen()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ContactScreen()));
     } else {
       var status = await Permission.contacts.request();
       print(status);
       if (status == PermissionStatus.granted) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactScreen()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ContactScreen()));
       } else if (status == PermissionStatus.permanentlyDenied) {
         openAppSettings();
       }
@@ -28,17 +32,40 @@ class _Home10State extends State<Home10> {
 
   void camera() async {
     print('camera');
-    if (await Permission.contacts.status.isGranted) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CameraScreen()));
+    if (await Permission.camera.status.isGranted) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const CameraScreen()));
     } else {
-      var status = await Permission.contacts.request();
+      var status = await Permission.camera.request();
       print(status);
       if (status == PermissionStatus.granted) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CameraScreen()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const CameraScreen()));
       } else if (status == PermissionStatus.permanentlyDenied) {
         openAppSettings();
       }
     }
+  }
+
+  void setupLocation() async {
+    var loc = location.Location();
+
+    if (!await loc.serviceEnabled()) {
+      if (!await loc.requestService()) {
+        return;
+      }
+    }
+
+    var permission = await loc.hasPermission();
+    if (permission == PermissionStatus.denied) {
+      permission = await loc.requestPermission();
+      if (permission != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const LocationScreen()));
   }
 
   @override
@@ -53,6 +80,8 @@ class _Home10State extends State<Home10> {
           children: [
             ElevatedButton(onPressed: contact, child: const Text('Contact')),
             ElevatedButton(onPressed: camera, child: const Text('Camera')),
+            ElevatedButton(
+                onPressed: setupLocation, child: const Text('Location')),
           ],
         ),
       ),

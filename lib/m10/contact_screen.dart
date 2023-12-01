@@ -38,14 +38,16 @@ class _ContactScreenState extends State<ContactScreen> {
                 Contact? contact = _contacts?.elementAt(index);
 
                 return ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
-                  leading: contact?.avatar != null && contact!.avatar!.isNotEmpty
-                      ? CircleAvatar(
-                          backgroundImage: MemoryImage(contact.avatar!),
-                        )
-                      : CircleAvatar(
-                          child: Text(contact!.initials()),
-                        ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
+                  leading:
+                      contact?.avatar != null && contact!.avatar!.isNotEmpty
+                          ? CircleAvatar(
+                              backgroundImage: MemoryImage(contact.avatar!),
+                            )
+                          : CircleAvatar(
+                              child: Text(contact!.initials()),
+                            ),
                   title: Text(contact.displayName ?? ''),
                 );
               })

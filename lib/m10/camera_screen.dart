@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -16,12 +17,19 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> setCamera() async {
     cameras = await availableCameras();
+    camera = cameras.first;
   }
 
   @override
   void initState() {
     setCamera().then((_) {
-      _controller = 1;
+      _controller = CameraController(camera, ResolutionPreset.medium);
+      _controller.initialize().then((snapshot) {
+        cameraPreview = Center(child: CameraPreview(_controller));
+        setState(() {
+          cameraPreview = cameraPreview;
+        });
+      });
     });
     super.initState();
   }
@@ -30,7 +38,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Camera"),
+        title: const Text("Camera"),
       ),
       body: cameraPreview,
     );
