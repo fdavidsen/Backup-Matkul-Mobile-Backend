@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/m10/camera_screen.dart';
 import 'package:flutter_application_1/m10/contact_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -13,14 +14,27 @@ class _Home10State extends State<Home10> {
   void contact() async {
     print('contact');
     if (await Permission.contacts.status.isGranted) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ContactScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactScreen()));
     } else {
       var status = await Permission.contacts.request();
       print(status);
       if (status == PermissionStatus.granted) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ContactScreen()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactScreen()));
+      } else if (status == PermissionStatus.permanentlyDenied) {
+        openAppSettings();
+      }
+    }
+  }
+
+  void camera() async {
+    print('camera');
+    if (await Permission.contacts.status.isGranted) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CameraScreen()));
+    } else {
+      var status = await Permission.contacts.request();
+      print(status);
+      if (status == PermissionStatus.granted) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CameraScreen()));
       } else if (status == PermissionStatus.permanentlyDenied) {
         openAppSettings();
       }
@@ -31,13 +45,14 @@ class _Home10State extends State<Home10> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Screen'),
+        title: const Text('Screen'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: contact, child: Text('Contact'))
+            ElevatedButton(onPressed: contact, child: const Text('Contact')),
+            ElevatedButton(onPressed: camera, child: const Text('Camera')),
           ],
         ),
       ),

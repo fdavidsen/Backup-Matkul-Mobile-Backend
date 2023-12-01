@@ -12,6 +12,7 @@ import 'm05/home.dart';
 import 'm06/home.dart';
 import 'm07/login.dart';
 import 'm09/home.dart';
+import 'm10/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Home9(),
+      home: const Home10(),
     );
   }
 }

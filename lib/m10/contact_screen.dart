@@ -1,5 +1,5 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
@@ -29,22 +29,27 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact'),
+        title: const Text('Contact'),
       ),
       body: _contacts != null && _contacts.length != 0
           ? ListView.builder(
               itemCount: _contacts?.length ?? 0,
               itemBuilder: (context, index) {
-                print(index);
                 Contact? contact = _contacts?.elementAt(index);
 
                 return ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2, horizontal: 18),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
+                  leading: contact?.avatar != null && contact!.avatar!.isNotEmpty
+                      ? CircleAvatar(
+                          backgroundImage: MemoryImage(contact.avatar!),
+                        )
+                      : CircleAvatar(
+                          child: Text(contact!.initials()),
+                        ),
                   title: Text(contact.displayName ?? ''),
                 );
               })
-          : Center(
+          : const Center(
               child: Text('Kontak Kosong'),
             ),
     );
