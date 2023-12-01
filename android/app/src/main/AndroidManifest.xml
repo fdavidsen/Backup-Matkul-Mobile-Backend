@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.CAMERA" />
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+>>>>>>> 558c691136ad4afde643868d971e376203c0d3c4
     <application
         android:label="flutter_application_1"
         android:name="${applicationName}"
